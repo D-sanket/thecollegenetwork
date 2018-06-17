@@ -1,0 +1,101 @@
+.josefin{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+@font-face {
+    font-family: 'Didot Regular';
+    src: url("fonts/Didot Regular.ttf");
+}
+
+.font-pink-dark{
+    color: #2196f3;
+}
+
+.didot{
+    font-family: 'Didot Regular'
+}
+
+.home-title{
+    height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-title > a > h1{
+    font-size: 2.5em;
+    font-weight: bold;
+    letter-spacing: -1px;
+    color: white;
+    text-shadow: -1px 0 #2196f3, 1px 0 #2196f3, 0 1px #2196f3, 0 -1px #2196f3;
+}
+
+@media screen and (min-width: 768px){
+    .home-title{
+        height: 15em;
+    }
+    .home-title > a > h1{
+        font-size: 4.5em;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .home-title > a >  `h1{
+        font-size: 6em;
+    }
+}
+
+.home-menu > a{
+    margin: 0;
+    background: white;
+    font-family: 'Josefin Sans';
+    font-size: 1.5em;
+    border: 1px solid lightgray;
+    transform: scale(0.9);
+}
+
+.home-menu > a:hover{
+    background: #2196f3;
+    color: white;
+}
+
+a{
+    transition-duration: 0.3s;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #2196f3;
+}
+
+.sidenav{
+    height: 100%;
+    transition-duration: 0.3s;
+}
+
+.sidenav > div{
+    margin: 0.5rem;
+    -webkit-box-shadow: 1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    -moz-box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    height: calc(100% - 1rem);
+}
+
+.btn{
+    text-transform: uppercase;
+}
+
+.btn-primary{
+    background: #2196f3;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    border: none;
+}
+
+.login-panel{
+    margin-top: 5rem;
+}
+
+.bordered-text-blue{
+    text-shadow: -1px 0 #2196f3, 1px 0 #2196f3, 0 1px #2196f3, 0 -1px #2196f3;
+}
