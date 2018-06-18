@@ -14,24 +14,27 @@
 
 	</form>
 
-	@if($users = DB::table('users')->where('reg_no', '!=', Auth::user()->reg_no)->limit(3)->get())
+	@if($users = Auth::user()->getSuggestions()->get())
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				Suggested friends
 			</div>
 			<div class="panel-body suggested-friends">
 				@foreach($users as $user)
-
-					<div class="col-xs-4 col-lg-3" style="display: inline-block; float: left">
-						<div class="panel panel-default user-thumbnail">
-							<a  href="/profile/{{ $user->reg_no }}" class="panel-body">
-								<img src="/images/dwnld.jpg" class="img-responsive">
-							</a>
-							<a href="/profile/{{ $user->reg_no }}">
-								<div class="panel-footer">
-									{{ $user->firstname }} {{ $user->lastname }}
+					<div  class="col-xs-12 col-sm-6 user-panel">
+						<div class="col-xs-12">
+							<img src="{{ $user->dp() }}" class="img-responsive">
+							<div>
+								<div class="name">
+									<a href="/profile/{{ $user->reg_no }}">
+										{{ $user->firstname }} {{ $user->lastname }}
+									</a>
 								</div>
-							</a>
+								<div>
+									<a class="action add" data-id="{{ $user->id }}">Add</a>
+									<a class="action">Block</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				@endforeach
@@ -41,9 +44,46 @@
 	@endif
 
 	<div class="panel panel-default">
-		<div class="panel-heading">Friends</div>
-		<div class="panel-body">
-
+		<div class="panel-heading">Friend requests</div>
+		<div class="panel-body friend-requests">
+			@if($users = Auth::user()->getRequests())
+				@foreach($users as $user)
+					<div  class="col-xs-12 col-sm-6 user-panel">
+						<div class="col-xs-12">
+							<img src="{{ $user->dp() }}" class="img-responsive">
+							<div>
+								<div class="name">
+									<a href="/profile/{{ $user->reg_no }}">
+										{{ $user->firstname }} {{ $user->lastname }}
+									</a>
+								</div>
+								<div>
+									<a class="action accept" data-id="{{ $user->id }}">Accept</a>
+									<a class="action">Block</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				@endforeach
+			@endif
 		</div>
 	</div>
+
+	<script>
+		$("a.action.add").click(function () {
+		   var id = $(this).attr('data-id');
+		   var elem = $(this);
+			$.ajax({
+				url: '/friends/add/'+id,
+				type: "POST",
+				data: { _token: '{{ \Illuminate\Support\Facades\Session::token() }}', id: id },
+				success: function (response) {
+					elem.html('Sent');
+                },
+				error: function (err) {
+					alert(err.statusText);
+                }
+			});
+        });
+	</script>
 @endsection

@@ -35,4 +35,6 @@ Route::group(['middleware' => 'CustomAuth'], function (){
     Route::get('profile/{reg_no?}', 'PagesController@profile')->where('reg_no', '^([0-9]{4,4}[a-zA-Z]{3,3}[0-9]{3,3})$');
     Route::post('profile/upload/cover', 'ProfileController@cover');
     Route::post('profile/upload/cover/up', 'ProfileController@upcover');
+
+    Route::post('friends/add/{id}', 'FriendshipController@add')->where('id', '^([0-9]+)$');
 });

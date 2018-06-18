@@ -14,7 +14,7 @@
 	<div class="row">
 
 		@include('includes.nav')
-		<div class="col-md-6 main">
+		<div class="col-md-8 col-lg-6 main">
 			<div>@yield('content')</div>
 		</div>
 

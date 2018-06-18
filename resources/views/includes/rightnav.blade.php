@@ -1,4 +1,4 @@
-<div class="hidden-xs hidden-sm col-sm-3 rightnav">
+<div class="hidden-xs hidden-sm hidden-md col-sm-3 rightnav">
 	<div>
 		<div class="jumbotron" style="padding-bottom: 1rem; margin-bottom: 0;">
 			<img src="{{ (Auth::user())->dp() }}" class="img-responsive dp">
