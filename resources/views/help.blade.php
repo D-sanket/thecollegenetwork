@@ -1,7 +1,7 @@
 @extends('master')
 
-@section('title', 'Timeline')
+@section('title', 'Help')
 
 @section('content')
-	Timeline
+	Help
 @endsection

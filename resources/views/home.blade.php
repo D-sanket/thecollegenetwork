@@ -7,10 +7,16 @@
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
+	@if(Auth::check())
+		<div class="logout-btn">
+			<a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+		</div>
+	@endif
 	<div class="container text-center">
 		<div class="home-title">
-			<a href="/"><h1 class="didot">The<span class="font-pink-dark">College</span>Network</h1></a>
+			<a href="/"><h1 class="didot">The<span class="font-blue">College</span>Network</h1></a>
 		</div>
+		@include('includes.success')
 		<div class="row home-menu">
 			<a href="/timeline" class="col-xs-12 col-sm-6 col-md-4 jumbotron">
 				Timeline

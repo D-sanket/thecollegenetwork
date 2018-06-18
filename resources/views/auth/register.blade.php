@@ -1,13 +1,13 @@
-@extends('master')
+@extends('auth.main')
 
 @section('title', 'Register')
 
 @section('content')
 
-	<div class="col-sm-12 col-md-6 col-sm-offset-2 col-md-offset-1 login-panel">
+	<div class="col-sm-12 col-md-6 col-md-offset-3 login-panel text-left">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<span class="glyphicon glyphicon-user"></span> Register <a href="/" class="pull-right didot" style="color: #2196f3;">TheCollegeNetwork</a>
+				<span class="glyphicon glyphicon-user"></span> Register
 			</div>
 			<div class="panel-body">
 				@include('includes.success')
@@ -53,11 +53,5 @@
 			</div>
 		</div>
 	</div>
-
-	<style>
-		.sidenav{
-			transform: scaleX(0);
-		}
-	</style>
 
 @endsection

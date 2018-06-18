@@ -7,12 +7,84 @@
     src: url("fonts/Didot Regular.ttf");
 }
 
-.font-pink-dark{
+.font-blue{
     color: #2196f3;
 }
 
 .didot{
     font-family: 'Didot Regular'
+}
+
+/* Material icons */
+.mdi::before {
+    font-size: 24px;
+    line-height: 14px;
+}
+.btn .mdi::before {
+    position: relative;
+    top: 4px;
+}
+.btn-xs .mdi::before {
+    font-size: 18px;
+    top: 3px;
+}
+.btn-sm .mdi::before {
+    font-size: 18px;
+    top: 3px;
+}
+.dropdown-menu .mdi {
+    width: 18px;
+}
+.dropdown-menu .mdi::before {
+    position: relative;
+    top: 4px;
+    left: -8px;
+}
+.nav .mdi::before {
+    position: relative;
+    top: 4px;
+}
+.navbar .navbar-toggle .mdi::before {
+    position: relative;
+    top: 4px;
+    color: #FFF;
+}
+.breadcrumb .mdi::before {
+    position: relative;
+    top: 4px;
+}
+.breadcrumb a:hover {
+    text-decoration: none;
+}
+.breadcrumb a:hover span {
+    text-decoration: underline;
+}
+.alert .mdi::before {
+    position: relative;
+    top: 4px;
+    margin-right: 2px;
+}
+.input-group-addon .mdi::before {
+    position: relative;
+    top: 3px;
+}
+.navbar-brand .mdi::before {
+    position: relative;
+    top: 2px;
+    margin-right: 2px;
+}
+.list-group-item .mdi::before {
+    position: relative;
+    top: 3px;
+    left: -3px
+}
+/* */
+
+.logout-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
 }
 
 .home-title{
@@ -98,4 +170,116 @@ a:hover{
 
 .bordered-text-blue{
     text-shadow: -1px 0 #2196f3, 1px 0 #2196f3, 0 1px #2196f3, 0 -1px #2196f3;
+}
+
+.sidenav .menu-holder{
+    padding: 1rem;
+    padding-right: 3rem;
+    margin-top: -3rem;
+}
+
+.sidenav .menu-holder > a{
+    width: 80%;
+    display: block;
+    margin-left: 20%;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    box-sizing: padding-box;
+    border: 1px solid transparent;
+}
+
+.sidenav .menu-holder > a:hover{
+    border-color: #2196f3;
+}
+
+.mdi{
+    vertical-align: -2px;
+}
+
+.rightnav{
+    height: 100%;
+}
+
+.rightnav > div{
+    margin: 0.5rem;
+    height: calc(100% - 1rem);
+    -webkit-box-shadow: 1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    -moz-box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+}
+
+.dp{
+    border-radius: 50%;
+    width: 60%;
+    margin-left: 20%;
+}
+
+.notification{
+    padding: 0.5rem;
+}
+
+.main{
+    padding: 0.5rem 0;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.dp-name{
+    width: 25%;
+    margin-top: -13%;
+    margin-left: 50px;
+}
+
+.dp-name > span{
+    position: absolute;
+    padding: 1rem;
+    height: 100px;
+    margin-top: -13%;
+    margin-left: 25%;
+}
+
+.edit-profile-btn:hover{
+    cursor: pointer;
+}
+
+.profile-edit-box{
+    padding: 1rem;
+}
+
+.cover{
+    height: 0;
+    padding-top: 33.33%;
+    overflow-y: hidden;
+}
+
+.cover > img{
+    margin-top: -33.33%;
+}
+.cover-bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0, 0.5);
+    opacity: 0;
+    height: 0px;
+    padding-top: 33.33%;
+    width: 100%;
+    margin-top: 0.5rem;
+    transition-duration: 0.3s;
+}
+
+.cover-bg > div{
+    position: relative;
+    height: 100%;
+    margin-top: -15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: Arial;
+}
+
+.cover-bg:hover{
+    opacity: 1;
+    cursor: pointer;
 }

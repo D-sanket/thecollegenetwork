@@ -12,8 +12,8 @@ class FormController extends Controller
     public function login(LoginFormRequest $request){
         $credentials = $request->only('email', 'password');
         if(Auth::attempt($credentials)){
-            Auth::login(User::where('email', '=', $request->email));
-            return redirect('/');
+            Auth::login(User::where('email', '=', $request->email)->first());
+            return redirect()->back()->with('message', 'Successfully logged in.');
         }
         return redirect()->back()->withErrors('Invalid email/password combination.');
     }
