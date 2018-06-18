@@ -283,3 +283,16 @@ a:hover{
     opacity: 1;
     cursor: pointer;
 }
+
+.user-thumbnail > .panel-body{
+    padding: 0;
+}
+
+.user-thumbnail > .panel-body > img{
+    transform: scale(0.98);
+    border-radius: 2px;
+}
+
+.suggested-friends{
+    white-space: nowrap;
+}
