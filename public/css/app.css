@@ -293,6 +293,7 @@ a:hover{
     margin-top: 0.25rem;
     transform: scale(0.99);
     border: 1px solid lightgrey;
+    transition-duration: 0.3s;
 }
 
 .user-panel > div > img{
@@ -320,6 +321,7 @@ a:hover{
 
 .user-panel > div > div > div > .action{
     border: 1px solid #2196f3;
+    background: white;
     width: 70px;
     padding: 0.5rem;
     margin: 0.25rem;
@@ -329,4 +331,8 @@ a:hover{
 
 .user-panel > div > div > div > .action:hover{
     cursor: pointer;
+}
+
+.action.cancel{
+    width: 100px;
 }
