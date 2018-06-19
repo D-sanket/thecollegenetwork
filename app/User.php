@@ -33,7 +33,11 @@ class User extends Model implements Authenticatable
     }
 
     public function friendRequests(){
-        return $this->hasMany('App\FriendRequests', 'to');
+        return $this->hasMany('App\FriendRequest', 'to');
+    }
+
+    public function sentRequests(){
+        return $this->hasMany('App\FriendRequest', 'from');
     }
 
     public function getSuggestions(){

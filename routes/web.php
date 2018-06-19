@@ -37,4 +37,5 @@ Route::group(['middleware' => 'CustomAuth'], function (){
     Route::post('profile/upload/cover/up', 'ProfileController@upcover');
 
     Route::post('friends/add/{id}', 'FriendshipController@add')->where('id', '^([0-9]+)$');
+    Route::post('friends/cancel/{id}', 'FriendshipController@cancel')->where('id', '^([0-9]+)$');
 });
