@@ -32,6 +32,16 @@ class User extends Model implements Authenticatable
         return '/images/defaultcover.jpg';
     }
 
+    public function friends(){
+        $relations = $this->hasMany('App\Friend', 'user_id');
+
+        foreach ($relations as $relation){
+            echo 'x';
+        }
+
+        return User::all();
+    }
+
     public function friendRequests(){
         return $this->hasMany('App\FriendRequest', 'to');
     }
