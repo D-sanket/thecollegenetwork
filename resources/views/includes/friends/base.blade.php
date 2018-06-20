@@ -4,15 +4,19 @@
 		{{ $panel_title }}
 	</div>
 	<div class="panel-body">
-		@yield('panel-users')
-
+		@if(count($users) == 0)
+			Nothing to show.
+		@endif
 		@foreach($users as $user)
-			<div class="user-panel col-xs-12 col-sm-6">
-				<div class="col-xs-4">
-					<img src="{{ $user->dp() }}" class="img-responsive">
-				</div>
-				<div class="col-xs-8">
-					{{ $user->firstname }}
+			<div class="col-xs-12 col-sm-6">
+				<div class="user-panel col-xs-12">
+					<div class="col-xs-3">
+						<img src="{{ $user->dp() }}" class="img-responsive">
+					</div>
+					<div class="col-xs-9">
+						<a href="/profile/{{ $user->reg_no }}">{{ $user->firstname }} {{ $user->lastname }}</a> <br/>
+						{!! Auth::user()->friendsBtnFor($user->id) !!}
+					</div>
 				</div>
 			</div>
 		@endforeach

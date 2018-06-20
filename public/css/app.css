@@ -283,3 +283,23 @@ a:hover{
     opacity: 1;
     cursor: pointer;
 }
+
+.user-panel{
+    padding: 1rem;
+    position: relative;
+    margin-top: 1rem;
+
+    -webkit-box-shadow: 1px 1px 2px lightgray;
+    -moz-box-shadow: 1px 1px 2px lightgray;
+    box-shadow: 1px 1px 2px lightgray;
+}
+
+.action:hover{
+    cursor: pointer;
+}
+
+.search-result{
+    padding: 0.5rem;
+    padding-left: 2rem;
+    display: block;
+}

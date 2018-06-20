@@ -36,7 +36,12 @@ Route::group(['middleware' => 'CustomAuth'], function (){
     Route::post('profile/upload/cover', 'ProfileController@cover');
     Route::post('profile/upload/cover/up', 'ProfileController@upcover');
 
-    Route::post('friends/add/{id}', 'FriendshipController@add')->where('id', '^([0-9]+)$');
-    Route::post('friends/cancel/{id}', 'FriendshipController@cancel')->where('id', '^([0-9]+)$');
-    Route::post('friends/accept/{id}', 'FriendshipController@accept')->where('id', '^([0-9]+)$');
+    Route::group(['prefix' => 'friends'], function (){
+        Route::post('add/{id}', 'FriendshipController@add')->where('id', '^([0-9]+)$');
+        Route::post('unfriend/{id}', 'FriendshipController@unfriend')->where('id', '^([0-9]+)$');
+        Route::post('cancel/{id}', 'FriendshipController@cancel')->where('id', '^([0-9]+)$');
+        Route::post('accept/{id}', 'FriendshipController@accept')->where('id', '^([0-9]+)$');
+        Route::post('reject/{id}', 'FriendshipController@reject')->where('id', '^([0-9]+)$');
+        Route::post('search', 'FriendshipController@search');
+    });
 });

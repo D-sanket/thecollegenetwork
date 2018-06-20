@@ -33,29 +33,51 @@ class User extends Model implements Authenticatable
     }
 
     public function friends(){
-        $relations = $this->hasMany('App\Friend', 'user_id');
+        $relations = $this->hasMany('App\Friend', 'user_id')->get();
+        $friends = array();
 
         foreach ($relations as $relation){
-            echo 'x';
+            array_push($friends, User::where('id', $relation->friend_id)->first());
         }
 
-        return User::all();
+        return $friends;
     }
 
-    public function friendRequests(){
-        return $this->hasMany('App\FriendRequest', 'to');
+    public function friendRequests($offset = 0, $limit = 6){
+        $reqs = $this->hasMany('App\FriendRequest', 'to')->offset($offset)->limit($limit)->get();
+        $result = array();
+
+        foreach ($reqs as $req){
+            array_push($result, User::where('id', $req->from)->first());
+        }
+
+        return $result;
     }
 
-    public function sentRequests(){
-        return $this->hasMany('App\FriendRequest', 'from');
+    public function sentRequests($offset = 0, $limit = 6){
+        $reqs = $this->hasMany('App\FriendRequest', 'from')->offset($offset)->limit($limit)->get();
+        $result = array();
+
+        foreach ($reqs as $req) {
+            array_push($result, User::where('id', $req->to)->first());
+        }
+
+        return $result;
     }
 
-    public function getSuggestions(){
+    public function getSuggestions($offset = 0, $limit = 6){
         $u = User::newQuery();
         $u->where('id', '!=', Auth::user()->id);
+
         $friendreqs = FriendRequest::where('from', '=', Auth::user()->id)->get();
         foreach ($friendreqs as $friendreq) {
             $u->where('id', '!=', $friendreq->to);
+        }
+
+        $blockedusers = BlockedUser::where('by', Auth::user()->id)->get();
+
+        foreach ($blockedusers as $blockeduser) {
+            $u->where('id', '!=', $$blockeduser->who);
         }
 
         $friends = Friend::where('user_id', '=', Auth::user()->id)->get();
@@ -64,6 +86,38 @@ class User extends Model implements Authenticatable
             $u->where('id', '!=', $friend->friend_id);
         }
 
-        return $u;
+        return $u->offset($offset)->limit($limit)->get();
+    }
+
+    public function isBlocked($id){
+        return BlockedUser::where(['by' => Auth::user()->id, 'who' => $id])->count() > 0;
+    }
+
+    public function isFriend($id){
+        return Friend::where(['user_id' => Auth::user()->id, 'friend_id' => $id])->count() > 0;
+    }
+
+    public function isRequested($id){
+        return FriendRequest::where(['from' => Auth::user()->id, 'to' => $id])->count() > 0;
+    }
+
+    public function requestedMe($id){
+        return FriendRequest::where(['from' => $id, 'to' => Auth::user()->id])->count() > 0;
+    }
+
+    public function friendsBtnFor($id){
+        if($this->isFriend($id)){
+            return "<a data-id='$id' class='action unfriend'>Unfriend <i class='mdi mdi-18px mdi-account-minus'></i> </a>";
+        }
+        else if($this->isRequested($id)){
+            return "<a data-id='$id' class='action cancel'>Cancel request <i class='mdi mdi-18px mdi-account-remove'></i></a>";
+        }
+        else if($this->requestedMe($id)){
+            return "<a data-id='$id' class='action accept'>Accept <i class='mdi mdi-18px mdi-account-plus'></i></a>&nbsp;
+                    <a data-id='$id' class='action reject'>Reject <i class='mdi mdi-18px mdi-account-remove'></i></a>";
+        }
+        else{
+            return "<a data-id='$id' class='action add-friend'>Add friend <i class='mdi mdi-18px mdi-account-plus'></i> </a>";
+        }
     }
 }
