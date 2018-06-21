@@ -327,3 +327,17 @@ a:hover{
 .post-action:hover{
     cursor: pointer;
 }
+
+.posts{
+    padding: 1rem;
+    border: 1px solid lightgray;
+    margin-top: 1rem;
+}
+
+.posts .author{
+    padding: 0.5rem 0;
+}
+
+.posts .body{
+    padding: 0.5rem 0;
+}

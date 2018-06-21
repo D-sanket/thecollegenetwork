@@ -46,5 +46,5 @@ Route::group(['middleware' => 'CustomAuth'], function (){
     });
 
     Route::post('timeline/post/submit', 'PostController@submit');
-    Route::post('timeline/post/getposts', 'PostController@getposts');
+    Route::post('timeline/post/fetch', 'PostController@fetch');
 });

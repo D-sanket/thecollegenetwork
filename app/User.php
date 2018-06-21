@@ -120,4 +120,8 @@ class User extends Model implements Authenticatable
             return "<a data-id='$id' class='action add-friend'>Add friend <i class='mdi mdi-18px mdi-account-plus'></i> </a>";
         }
     }
+
+    public function posts(){
+        return $this->hasMany('App\Post', 'user_id', 'id');
+    }
 }

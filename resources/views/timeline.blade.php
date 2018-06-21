@@ -18,7 +18,13 @@
 		</div>
 	</form>
 
+	<div class="post-container">
+
+	</div>
+
 	<script>
+
+        fetchPosts(0, 10);
 
 		$('.post-action.post').click(function () {
 			var data = {
@@ -44,21 +50,38 @@
 		function fetchPosts(offset, limit) {
             var data = {
                 _token: '{{ csrf_token() }}',
-				offset: offset,
-				limit: limit
+				limit: limit,
+				offset: offset
             };
 
             $.ajax({
-                url: '/timeline/post/getposts',
+                url: '/timeline/post/fetch',
                 type: "POST",
                 data: data,
                 success: function (response) {
+                    var posts = JSON.parse(response);
 
+                    $.each(posts, function() {
+						$('.post-container').append(makePost(this));
+                    });
                 },
                 error: function (err) {
-                    alert('Error : '+err.statusText);
+                    $('.post-container').html('Error : '+err.statusText);
                 }
             });
+        }
+
+        function makePost(post) {
+			return "<div class='posts'>" +
+				"<a href='/profile/"+post['reg_no']+"'class='author'>" +
+				""+post['name']+"</a>" +
+				"<div class='body'>"+post['text']+"</div>" +
+				"<div class='actions'>" +
+				"<a class='like' data-id='"+post['id']+"'> <i class='mdi mdi-18px mdi-thumb-up'></i> "+post['likes']+"</a> " +
+				"<a class='comment' data-id='"+post['id']+"'> <i class='mdi mdi-18px mdi-comment'></i> "+post['comments']+"</a>" +
+				"</div>" +
+				"<div class='comments-container'></div> " +
+				"</div>";
         }
 
 	</script>
