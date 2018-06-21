@@ -130,30 +130,22 @@
         });
     }
 
+    function AJAXify(elem, url, data, callback) {
+        data._token = "{{ csrf_token() }}";
+        elem.click(function () {
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                success: function (response) {
+                    callback(response);
+                },
+                error: function (err) {
 
+                }
+            });
+        });
+    }
 
-
-	function AJAXify(elem, url, data, callback) {
-		data._token = "{{ csrf_token() }}";
-		elem.click(function () {
-			$.ajax({
-				url: url,
-				type: "POST",
-				data: data,
-				success: function (response) {
-					callback(response);
-				},
-				error: function (err) {
-
-				}
-			});
-		});
-	}
-
-	function deAJAXify(elem) {
-		elem.click(function () {
-
-		});
-	}
 </script>
 @endsection

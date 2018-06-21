@@ -15,3 +15,5 @@ function loadModal(title, url, data) {
         }
     });
 }
+
+

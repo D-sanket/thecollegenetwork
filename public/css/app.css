@@ -303,3 +303,27 @@ a:hover{
     padding-left: 2rem;
     display: block;
 }
+
+.post-text{
+    resize: none;
+    width: 100%;
+    border: none;
+}
+
+.post-footer{
+    background: white;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    height: 4rem;
+}
+
+.post-action{
+    border: 1px solid transparent;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.post-action:hover{
+    cursor: pointer;
+}

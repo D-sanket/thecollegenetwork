@@ -3,7 +3,7 @@
 		<div class="jumbotron" style="padding-bottom: 1rem; margin-bottom: 0;">
 			<img src="{{ (Auth::user())->dp() }}" class="img-responsive dp">
 			<h4 class="text-center">
-				{{ (Auth::user())->name() }} | <a href="/auth/logout">Logout</a>
+				<a href="/profile">{{ (Auth::user())->name() }}</a> | <a href="/auth/logout">Logout</a>
 			</h4>
 		</div>
 		<div class="panel panel-default">

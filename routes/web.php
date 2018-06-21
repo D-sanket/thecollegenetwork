@@ -44,4 +44,7 @@ Route::group(['middleware' => 'CustomAuth'], function (){
         Route::post('reject/{id}', 'FriendshipController@reject')->where('id', '^([0-9]+)$');
         Route::post('search', 'FriendshipController@search');
     });
+
+    Route::post('timeline/post/submit', 'PostController@submit');
+    Route::post('timeline/post/getposts', 'PostController@getposts');
 });
