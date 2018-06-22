@@ -141,7 +141,7 @@
                     callback(response);
                 },
                 error: function (err) {
-
+					toast('Sorry, something went wrong.');
                 }
             });
         });

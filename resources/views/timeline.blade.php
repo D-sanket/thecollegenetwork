@@ -10,10 +10,11 @@
 			<div class="post-extras col-sm-9">
 
 			</div>
-			<div class="post-actions col-sm-3 text-center">
-				<a class="post-action add-image col-sm-4"><i class="mdi mdi-18px mdi-image-plus"></i> </a>
-				<a class="post-action tag col-sm-4"><i class="mdi mdi-18px mdi-tag"></i> </a>
-				<a class="post-action post col-sm-4"><i class="mdi mdi-18px mdi-send"></i> </a>
+			<div class="post-actions col-sm-4 text-center">
+				<a class="post-action privacy col-sm-3"><i class="mdi mdi-18px mdi-security-lock"></i> </a>
+				<a class="post-action add-image col-sm-3"><i class="mdi mdi-18px mdi-image-plus"></i> </a>
+				<a class="post-action tag col-sm-3"><i class="mdi mdi-18px mdi-tag"></i> </a>
+				<a class="post-action post col-sm-3"><i class="mdi mdi-18px mdi-send"></i> </a>
 			</div>
 		</div>
 	</form>
@@ -39,10 +40,19 @@
 				success: function (response) {
 					if(response == ''){
                         $('.post-text').val('');
+                        toast('Your status is live now.');
+					}
+					else{
+                        toast('Sorry, something went wrong.');
 					}
                 },
 				error: function (err) {
-					alert('Error : '+err.statusText);
+					if(err.status == 422){
+					    toast('Status length should be between 5 & 1000 characters.')
+					}
+					else{
+                        toast('Sorry, something went wrong.');
+					}
                 }
 			});
         });
@@ -66,7 +76,7 @@
                     });
                 },
                 error: function (err) {
-                    $('.post-container').html('Error : '+err.statusText);
+                    toast('Sorry, something went wrong.');
                 }
             });
         }

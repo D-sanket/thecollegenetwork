@@ -10,7 +10,7 @@
 
 <div class="container text-center">
 	<div class="home-title">
-		<a href="/"><h1 class="didot">The<span class="font-blue">College</span>Network</h1></a>
+		<a href="/"><h1 class="didot">The<span class="font-blue">Social</span>Network</h1></a>
 	</div>
 	@yield('content')
 </div>

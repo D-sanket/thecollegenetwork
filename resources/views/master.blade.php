@@ -22,6 +22,8 @@
 
 		@include('includes.modal')
 
+		@include('includes.toast')
+
 	</div>
 
 
