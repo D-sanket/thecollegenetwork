@@ -30,3 +30,20 @@ function toast(msg) {
         }, 550);
     }, 3000);
 }
+
+function loadStart(elem, small) {
+    if(small) {
+        elem.html($('.loader-container.hide.no-padding').clone().removeClass('hide')).addClass('full-flex');
+    }
+    else{
+        elem.html($('.loader-container.hide.with-padding').clone().removeClass('hide')).addClass('full-flex');
+    }
+}
+
+function loadStop(elem, callback){
+    elem.find('.loader-container').addClass('fade');
+    setTimeout(function () {elem.removeClass('full-flex');
+        elem.find('.loader-container').remove();
+        callback();
+    }, 550);
+}

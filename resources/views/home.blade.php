@@ -7,6 +7,11 @@
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
+
+	<?php
+	    config(['app.timezone' => 'Asia/Kolkata']);
+	?>
+
 	@if(Auth::check())
 		<div class="logout-btn">
 			<a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>

@@ -141,15 +141,14 @@ a:hover{
 }
 
 .sidenav{
+    position: fixed;
     height: 100%;
     transition-duration: 0.3s;
 }
 
 .sidenav > div{
     margin: 0.5rem;
-    -webkit-box-shadow: 1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
-    -moz-box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
-    box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    border-right: 1px solid lightgray;
     height: calc(100% - 1rem);
 }
 
@@ -198,14 +197,14 @@ a:hover{
 
 .rightnav{
     height: 100%;
+    position: fixed;
+    right: 0;
 }
 
 .rightnav > div{
     margin: 0.5rem;
     height: calc(100% - 1rem);
-    -webkit-box-shadow: 1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
-    -moz-box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
-    box-shadow:  1px 1px 2px lightgray, -1px -1px 2px lightgray, 1px -1px 2px lightgray, -1px 1px 2px lightgray;
+    border-left: 1px solid lightgray;
 }
 
 .dp{
@@ -219,9 +218,13 @@ a:hover{
 }
 
 .main{
-    padding: 0.5rem 0;
-    height: 100%;
-    overflow-y: scroll;
+    padding: 2rem 0;
+    position: absolute;
+    padding-left: 1rem;
+}
+
+.main *{
+    position: relative;
 }
 
 .dp-name{
@@ -324,14 +327,15 @@ a:hover{
     border-radius: 0.25rem;
 }
 
-.post-action:hover{
+.post-action:hover, .posts .actions > *{
     cursor: pointer;
 }
 
 .posts{
+    position: relative;
     padding: 1rem;
-    border: 1px solid lightgray;
-    margin-top: 1rem;
+    margin-top: 2rem;
+    transition-duration: 0.3s;
 }
 
 .posts .author{
@@ -369,4 +373,121 @@ a:hover{
     .toast{
         max-width: 60%;
     }
+}
+
+.lighter{
+    color: #757575;
+}
+
+
+.comment-box{
+
+}
+.posts .main{
+    height: auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    overflow: auto;
+    background: whitesmoke;
+}
+
+.comment1{
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #e1f5fe;
+    margin-top: 1rem;
+}
+
+.loader-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000000000000;
+    transition-duration: 0.5s;
+    padding: 2rem;
+}
+
+.loader-container.no-padding{
+    padding: 0;
+}
+
+.loader{
+    width: 2rem;
+    height: 4rem;
+    background: #2196f3;
+    margin-top: -2rem;
+    margin-left: -2rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    transform-origin: 100% 50%;
+    animation: rotate 1s infinite linear;
+}
+
+.loader-circle{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    position: relative;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: white;
+}
+
+.loader-container.no-padding{
+    transform: scale(0.2);
+}
+
+.scale{
+    transform: scale(0.5);
+}
+
+.hide{
+    display: none;
+}
+
+.fade{
+    opacity: 0;
+}
+
+.full-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;00000000000000000000000000000000000000000000000000000000000
+}
+
+@keyframes rotate {
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.comments-container{
+    padding: 0.5rem 0 2rem 0;
+    margin-bottom: 1rem;
+    height: auto;
+}
+
+.dp-container{
+    padding-top: 0rem;
+}
+
+.comment-dp-container{
+    padding-top: 1rem;
+}
+
+.comment-box-holder{
+    position: relative;
+    height: 3rem;
+}
+
+.scale-0{
+    transform: scale(0.5);
+    opacity: 0;
+}
+
+.comm{
+    transition-duration: 0.3s;
 }
