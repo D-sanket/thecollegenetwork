@@ -491,3 +491,16 @@ a:hover{
 .comm{
     transition-duration: 0.3s;
 }
+
+.prev-comments{
+    padding-top: 1rem;
+    padding-bottom: 0;
+}
+
+.prev-comments > a:hover{
+    cursor: pointer;
+}
+
+.op-destroy{
+    opacity: 0;
+}

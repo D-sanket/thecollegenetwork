@@ -31,8 +31,20 @@ function toast(msg) {
     }, 3000);
 }
 
-function loadStart(elem, small) {
-    if(small) {
+function loadStart(elem, small, type) {
+    if(type){
+        switch('prev'){
+            case 'prev':
+                $('.loader-container.hide.no-padding').clone().removeClass('hide').addClass('full-flex').insertBefore(elem);
+                break;
+            case 'next':
+
+                break;
+            default:
+                toast('Sorry, something went wrong.')
+        }
+    }
+    else if(small) {
         elem.html($('.loader-container.hide.no-padding').clone().removeClass('hide')).addClass('full-flex');
     }
     else{
@@ -40,10 +52,19 @@ function loadStart(elem, small) {
     }
 }
 
-function loadStop(elem, callback){
-    elem.find('.loader-container').addClass('fade');
-    setTimeout(function () {elem.removeClass('full-flex');
-        elem.find('.loader-container').remove();
-        callback();
-    }, 550);
+function loadStop(elem, callback, type){
+    if(type){
+        elem.parent().find('.loader-container').addClass('fade');
+        setTimeout(function () {elem.removeClass('full-flex');
+            elem.parent().find('.loader-container').remove();
+            callback();
+        }, 550);
+    }
+    else{
+        elem.find('.loader-container').addClass('fade');
+        setTimeout(function () {elem.removeClass('full-flex');
+            elem.find('.loader-container').remove();
+            callback();
+        }, 550);
+    }
 }

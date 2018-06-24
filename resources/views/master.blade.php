@@ -15,7 +15,7 @@
 	<div class="row">
 
 		@include('includes.nav')
-		<div class="col-sm-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3 main">
+		<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3 main">
 			<div>@yield('content')</div>
 		</div>
 

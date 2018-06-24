@@ -77,7 +77,13 @@ class User extends Model implements Authenticatable
         $blockedusers = BlockedUser::where('by', Auth::user()->id)->get();
 
         foreach ($blockedusers as $blockeduser) {
-            $u->where('id', '!=', $$blockeduser->who);
+            $u->where('id', '!=', $blockeduser->who);
+        }
+
+        $blockedusers = BlockedUser::where('who', Auth::user()->id)->get();
+
+        foreach ($blockedusers as $blockeduser) {
+            $u->where('id', '!=', $blockeduser->by);
         }
 
         $friends = Friend::where('user_id', '=', Auth::user()->id)->get();
