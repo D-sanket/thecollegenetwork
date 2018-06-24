@@ -40,6 +40,7 @@ Route::group(['middleware' => 'CustomAuth'], function (){
     });
 
     Route::post('timeline/post/submit', 'PostController@submit');
+    Route::post('timeline/post/delete', 'PostController@deletePost');
     Route::post('timeline/post/fetch', 'PostController@fetch');
     Route::post('timeline/post/fetch/{id}', 'PostController@fetchPostWithId')->where('id', '^([0-9]+)$');;
     Route::post('timeline/post/fetch/time', 'PostController@fetchTime');

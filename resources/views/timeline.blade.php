@@ -134,7 +134,6 @@
 
         }
 
-
 		function fetchPosts(offset, limit) {
             var data = {
                 _token: '{{ csrf_token() }}',
@@ -195,6 +194,12 @@
                         $('.prev-comments').each(function () {
                             $(this).click(function () {
                                 fetchPrevComments($(this));
+                            });
+                        });
+
+                        $('.posts .delete').each(function () {
+                            $(this).click(function () {
+                                deletePost($(this).parents('.posts').attr('data-id'));
                             });
                         });
 
@@ -270,7 +275,6 @@
                 }
             });
         }
-
 
         function setTimeUpdater() {
 
@@ -440,6 +444,34 @@
             });
         }
 
+        function deletePost(id) {
+            var data = {
+                _token: '{{ csrf_token() }}',
+                id: id,
+            };
+
+            $.ajax({
+                url: '/timeline/post/delete',
+                type: "POST",
+                data: data,
+                success: function (response){
+                    if(response ==  'error'){
+                        toast('Sorry, something went wrong.');
+                    }
+                    else{
+                        $('.posts[data-id='+id+']').addClass('scale-0');
+
+                        setTimeout(function () {
+                            $('.posts[data-id='+id+']').remove();
+                        }, 350);
+                    }
+                },
+                error: function (err) {
+                    toast('Sorry, something went wrong.'+err.status);
+                }
+            });
+        }
+
         function makePost(post) {
             return "<div class='posts col-xs-12 scale-0' data-id='"+post['id']+"'>" +
 						"<div class='hidden-xs col-sm-2 dp-container'>" +
@@ -450,7 +482,8 @@
 								"<div class='head'>" +
 									"<a href='/profile/"+post['reg_no']+"'class='author'>" +post['name']+"</a> " +
 									"<span class='lighter'> posted an update</span> " +
-									"<span class='pull-right lighter time'>"+post['updated_at']+"</span> "+
+									"<span class='pull-right lighter time'> &nbsp;"+post['updated_at']+"</span> "+
+									((post['delete'] === 'no') ? '' : "<a class='pull-right delete'> <i class='mdi mdi-18px mdi-delete'></i> · </a> · ")+
 								"</div>" +
 							"<div class='body'>"+post['text']+"</div>" +
 							"<div class='actions'>" +

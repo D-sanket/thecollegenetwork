@@ -508,3 +508,7 @@ a:hover{
 .post-container{
     margin-bottom: 200px;
 }
+
+.posts .delete:hover{
+    cursor: pointer;
+}
