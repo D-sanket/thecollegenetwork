@@ -23,7 +23,7 @@
 	</div>
 </nav>
 
-<div class="hidden-xs hidden-sm col-sm-3 sidenav">
+<div class="hidden-xs hidden-sm col-sm-3 col-md-4 col-lg-3 sidenav">
 	<div class="">
 		<div class="jumbotron">
 			<h2 class="didot  text-center">The<span class="font-blue">Social</span>Network</h2>

@@ -44,5 +44,6 @@ Route::group(['middleware' => 'CustomAuth'], function (){
     Route::post('timeline/post/fetch/time', 'PostController@fetchTime');
     Route::post('timeline/post/fetch/comments', 'PostController@fetchComments');
     Route::post('timeline/post/comment', 'PostController@comment');
+    Route::post('timeline/post/like', 'PostController@like');
 
 });

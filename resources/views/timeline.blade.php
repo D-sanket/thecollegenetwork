@@ -126,6 +126,37 @@
                             });
                         });
 
+                        $('.actions .unfriend').each(function () {
+                            $(this).click(function () {
+                                var id = $(this).attr('data-id');
+                                var username = $(this).parents('.posts').find('.author').html();
+                                $.ajax({
+                                    url: '/friends/unfriend/'+id,
+                                    type: "POST",
+                                    data: { _token: "{{ csrf_token() }}" },
+                                    success: function (response) {
+                                        if(response == ''){
+                                            toast('You are no longer friends with '+username);
+                                            fetchPosts(0, 10);
+                                        }
+                                        else{
+                                            toast('Sorry, something went wrong.');
+                                        }
+                                    },
+                                    error: function (err) {
+                                        toast('Sorry, something went wrong.'+err.status);
+                                    }
+                                });
+                            });
+                        });
+
+                        $('.actions .like').each(function () {
+                            $(this).click(function () {
+                                var id = $(this).parents('.posts').attr('data-id');
+                                like(id);
+                            });
+                        });
+
                         $('.actions .comment').each(function () {
                             fetchComments($(this), 0, 2, function(commentElem, response){
                                 var comments = JSON.parse(response);
@@ -220,6 +251,7 @@
                 elem.attr('data-offset', parseInt(elem.attr('data-offset')) + parseInt(elem.attr('data-limit')));
 
                 if(count < 2){
+                    toast('No more comments.');
                     elem.slideUp(300);
                     setTimeout(function () {
 						elem.remove();
@@ -293,12 +325,41 @@
 
         }
 
+        function like(id) {
+            var data = {
+                _token: '{{ csrf_token() }}',
+                id: id,
+            };
+
+            $.ajax({
+                url: '/timeline/post/like',
+                type: "POST",
+                data: data,
+                success: function (response){
+                    if(response ==  'error'){
+                        toast('Sorry, something went wrong.');
+                    }
+                    else{
+                        toast(response);
+                        var likeCountElem = $('.posts[data-id='+id+']').find('.actions .like .count');
+						 if(response == 'Liked')
+                             likeCountElem.html(parseInt(likeCountElem.html())+1);
+						 else
+                             likeCountElem.html(parseInt(likeCountElem.html())-1);
+                    }
+                },
+                error: function (err) {
+					toast('Sorry, something went wrong.'+err.status);
+                }
+            });
+        }
+
         function makePost(post) {
             return "<div class='posts col-xs-12 scale-0' data-id='"+post['id']+"'>" +
-						"<div class='col-xs-2 dp-container'>" +
+						"<div class='hidden-xs col-sm-2 dp-container'>" +
 							"<img src='"+post['dp']+"' class='img-circle img-responsive'>"+
 						"</div> " +
-						"<div class='col-xs-10'> " +
+						"<div class='col-xs-12 col-sm-10'> " +
 							"<div class='main col-xs-12'>" +
 								"<div class='head'>" +
 									"<a href='/profile/"+post['reg_no']+"'class='author'>" +post['name']+"</a> " +
@@ -335,10 +396,10 @@
 
         function makeComment(obj) {
 			return "<div class='col-xs-12 scale-0 comm'>" +
-						"<div class='col-xs-2 comment-dp-container'>" +
+						"<div class='hidden-xs col-sm-2 comment-dp-container'>" +
 			                "<img src='"+obj['dp']+"' class='img-circle img-responsive'>"+
 						"</div> " +
-						"<div class='col-xs-10'> " +
+						"<div class='col-xs-12 col-sm-10'> " +
 							"<div class='comment1'>" +
 							"	<div class='comment1-header'>" +
 							"		<a href='/profile/"+obj['user_reg_no']+"'>"+obj['user_name']+"</a>" +
