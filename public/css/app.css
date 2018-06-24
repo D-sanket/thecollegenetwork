@@ -512,3 +512,7 @@ a:hover{
 .posts .delete:hover{
     cursor: pointer;
 }
+
+.comm .delete-comment:hover{
+    cursor: pointer;
+}

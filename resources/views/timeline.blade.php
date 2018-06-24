@@ -123,6 +123,12 @@
                                 scrollLimit = $('.post-container').height();
                                 e.removeClass('scale-0');
                                 setTimeUpdater();
+
+                                $('.posts .delete').each(function () {
+                                    $(this).click(function () {
+                                        deletePost($(this).parents('.posts').attr('data-id'));
+                                    });
+                                });
                             }, 100);
                         }, 'prev');
 					}
@@ -183,6 +189,11 @@
                                                 var e = $(this).children().last();
                                                 setTimeout(function () {
                                                     e.removeClass('scale-0');
+                                                    $('.comm .delete-comment').each(function () {
+                                                        $(this).click(function () {
+                                                            deleteComment($(this).parents('.comm').attr('data-id'));
+                                                        });
+                                                    });
                                                 }, (idx+1)*100);
                                             });
                                         });
@@ -214,6 +225,9 @@
 									success: function (response) {
 										if(response == ''){
 										    toast('You blocked '+username);
+                                            postOffset = 0;
+                                            postLimit = 10;
+                                            $('.post-container').html('');
 										    fetchPosts(0, 10);
 										}
 										else{
@@ -238,6 +252,9 @@
                                     success: function (response) {
                                         if(response == ''){
                                             toast('You are no longer friends with '+username);
+                                            postOffset = 0;
+                                            postLimit = 10;
+                                            $('.post-container').html('');
                                             fetchPosts(0, 10);
                                         }
                                         else{
@@ -402,6 +419,11 @@
                         var e = postElem.find('.comments-container').children().last();
                         setTimeout(function () {
                             e.removeClass('scale-0');
+                            $('.comm .delete-comment').each(function () {
+                                $(this).click(function () {
+                                    deleteComment($(this).parents('.comm').attr('data-id'));
+                                });
+                            });
                         }, 100);
 					}
                 },
@@ -472,6 +494,35 @@
             });
         }
 
+        function deleteComment(id) {
+            var data = {
+                _token: '{{ csrf_token() }}',
+                id: id,
+            };
+
+            $.ajax({
+                url: '/timeline/post/deletecomment',
+                type: "POST",
+                data: data,
+                success: function (response){
+                    if(response ==  'error'){
+                        toast('Sorry, something went wrong.');
+                    }
+                    else{
+                        $('.comm[data-id='+id+']').addClass('scale-0');
+                        setTimeout(function () {
+                            var count = $('.comm[data-id='+id+']').parents('.posts').find('.comment .count');
+                            count.html(parseInt(count.html())-1);
+                            $('.comm[data-id='+id+']').remove();
+                        }, 350);
+                    }
+                },
+                error: function (err) {
+                    //toast('Sorry, something went wrong.'+err.status);
+                }
+            });
+        }
+
         function makePost(post) {
             return "<div class='posts col-xs-12 scale-0' data-id='"+post['id']+"'>" +
 						"<div class='hidden-xs col-sm-2 dp-container'>" +
@@ -514,7 +565,7 @@
         }
 
         function makeComment(obj) {
-			return "<div class='col-xs-12 scale-0 comm'>" +
+			return "<div class='col-xs-12 scale-0 comm' data-id='"+obj['id']+"'>" +
 						"<div class='hidden-xs col-sm-2 comment-dp-container'>" +
 			                "<img src='"+obj['dp']+"' class='img-circle img-responsive'>"+
 						"</div> " +
@@ -522,7 +573,8 @@
 							"<div class='comment1'>" +
 							"	<div class='comment1-header'>" +
 							"		<a href='/profile/"+obj['user_reg_no']+"'>"+obj['user_name']+"</a>" +
-							"		<span class='pull-right comment-time lighter'>"+obj['time']+"</span>" +
+							"		·&nbsp;<span class='pull-right comment-time lighter'>"+obj['time']+"</span>" +
+							(obj['delete'] === 'no' ? '' : "<a class='pull-right delete-comment'><i class='mdi mdi-18px mdi-delete'></i>&nbsp;</a>" )+
 							"	</div>" +
 							"	<div class='comment-text'> "+obj['text']+"</div>" +
 							"</div>" +
