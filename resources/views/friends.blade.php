@@ -25,6 +25,7 @@
 		@include('includes.friends.base', ['panel_title' => "Friend requests", 'users' => Illuminate\Support\Facades\Auth::user()->friendRequests()])
 		@include('includes.friends.base', ['panel_title' => "Friends", 'users' => Illuminate\Support\Facades\Auth::user()->friends()])
 		@include('includes.friends.base', ['panel_title' => "Sent requests", 'users' => Illuminate\Support\Facades\Auth::user()->sentRequests()])
+		@include('includes.friends.base', ['panel_title' => "Block list", 'users' => Illuminate\Support\Facades\Auth::user()->blockList()])
 
 
 <script>
@@ -34,6 +35,7 @@
 	unfriendify();
 	rejectify();
 	acceptify();
+	unblockify();
 
 	var timeout = null;
 
@@ -125,6 +127,19 @@
                     self.html("Unfriend <i class='mdi mdi-18px mdi-account-minus'></i>").removeClass('add-friend').addClass('unfriend');
                     unfriendify();
                     self.parent().find('.reject').remove();
+                }
+            });
+        });
+    }
+
+    function unblockify() {
+        $('.action.unblock').each(function () {
+            var self = $(this);
+            AJAXify(self, '/friends/unblock/'+self.attr('data-id'), {}, function (response) {
+                if(response == ''){
+                    self.html("Add friend <i class='mdi mdi-18px mdi-account-plus'></i>").removeClass('unblock').addClass('add-friend');
+                    friendify();
+
                 }
             });
         });

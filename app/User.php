@@ -32,6 +32,17 @@ class User extends Model implements Authenticatable
         return '/images/defaultcover.jpg';
     }
 
+    public function blockList(){
+        $relations = $this->hasMany('App\BlockedUser', 'by')->get();
+        $blocks = array();
+
+        foreach ($relations as $relation){
+            array_push($blocks, User::where('id', $relation->who)->first());
+        }
+
+        return $blocks;
+    }
+
     public function friends(){
         $relations = $this->hasMany('App\Friend', 'user_id')->get();
         $friends = array();
@@ -121,6 +132,9 @@ class User extends Model implements Authenticatable
         else if($this->requestedMe($id)){
             return "<a data-id='$id' class='action accept'>Accept <i class='mdi mdi-18px mdi-account-plus'></i></a>&nbsp;
                     <a data-id='$id' class='action reject'>Reject <i class='mdi mdi-18px mdi-account-remove'></i></a>";
+        }
+        else if($this->isBlocked($id)) {
+            return "<a data-id='$id' class='action unblock'>Unblock</i> </a>";
         }
         else{
             return "<a data-id='$id' class='action add-friend'>Add friend <i class='mdi mdi-18px mdi-account-plus'></i> </a>";
