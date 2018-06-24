@@ -35,10 +35,10 @@ function loadStart(elem, small, type) {
     if(type){
         switch('prev'){
             case 'prev':
-                $('.loader-container.hide.no-padding').clone().removeClass('hide').addClass('full-flex').insertBefore(elem);
+                $('.loader-container.hide.no-padding').clone().removeClass('hide').addClass('full-flex active').insertBefore(elem);
                 break;
             case 'next':
-
+                $('.loader-container.hide.no-padding').clone().removeClass('hide').addClass('full-flex active').append(elem);
                 break;
             default:
                 toast('Sorry, something went wrong.')
@@ -54,9 +54,10 @@ function loadStart(elem, small, type) {
 
 function loadStop(elem, callback, type){
     if(type){
-        elem.parent().find('.loader-container').addClass('fade');
-        setTimeout(function () {elem.removeClass('full-flex');
-            elem.parent().find('.loader-container').remove();
+        elem.parent().find('.loader-container.active').addClass('fade');
+        setTimeout(function () {
+            elem.removeClass('full-flex');
+            elem.parent().find('.loader-container.active').remove();
             callback();
         }, 550);
     }

@@ -4,7 +4,7 @@
 
 @section('content')
 
-	<form class="panel panel-default">
+	<form class="panel panel-default poster">
 		<textarea name="post_text" autocomplete="off" placeholder="Type something here.." class="post-text panel-body"></textarea>
 		<div class="panel-footer post-footer">
 			<div class="post-extras col-xs-10 col-sm-11">
@@ -17,16 +17,41 @@
 		</div>
 	</form>
 
-	<div class="post-container">
+	<div class="post-container col-xs-12">
 
 	</div>
 
 	<script>
 
         var timeUpdateTimer = null;
+        var postOffset = 0;
+        var postLimit = 10;
+        var scrollEnable = false;
+        var scrollLimit = -window.innerHeight;
+        var fetching = true;
+
+        $(window).scroll(function() {
+            var element = $('.posts').last();
+            var top_of_element = element.offset().top;
+            var bottom_of_element = element.offset().top + element.outerHeight();
+            var bottom_of_screen = $(window).scrollTop() + window.innerHeight;
+            var top_of_screen = $(window).scrollTop();
+
+            if((bottom_of_screen > top_of_element + element.height()) && (top_of_screen < bottom_of_element)){
+                if(!fetching){
+                    //toast(postOffset);
+                    fetching = true;
+                    fetchPosts(postOffset, postLimit);
+				}
+            }
+            else {
+                // The element is not visible, do something else
+            }
+        });
 
         $(document).ready(function () {
             fetchPosts(0, 10);
+            //scrollLimit += $('.poster').height();
         });
 
 		$('.post-action.post').click(function () {
@@ -48,9 +73,10 @@
 				success: function (response) {
 					loadStop($('.post-action.post'), function () {
 						$('.post-action.post').html(p);
-                        if(response == ''){
+                        if(response['message'] == ''){
                             $('.post-text').val('');
                             toast('Your status is live now.');
+                            fetchOnePost(response['id']);
                         }
                         else{
                             toast('Sorry, something went wrong.');
@@ -69,6 +95,45 @@
 			});
         });
 
+		function fetchOnePost(id) {
+            var data = {
+                _token: '{{ csrf_token() }}',
+				id: id
+            };
+            $.ajax({
+                url: '/timeline/post/fetch/'+id,
+                type: "POST",
+                data: data,
+                beforeSend: function(){
+                    loadStart($('.post-container').children().eq(0), true, 'prev');
+
+                },
+                success: function (response) {
+					if(response == ''){
+
+					}
+					else{
+					    var post = makePost(response);
+                        loadStop($('.post-container').children().eq(0), function () {
+							$(post).insertBefore($('.post-container').children().eq(0));
+                            $('.post-container').append(makePost(this));
+                            var e = $('.post-container').children().eq(0);
+                            setTimeout(function () {
+                                postOffset++;
+                                scrollLimit = $('.post-container').height();
+                                e.removeClass('scale-0');
+                                setTimeUpdater();
+                            }, 100);
+                        }, 'prev');
+					}
+                },
+                error: function (err) {
+					toast('Sorry, something went wrong.');
+                }
+            });
+
+        }
+
 
 		function fetchPosts(offset, limit) {
             var data = {
@@ -82,18 +147,49 @@
                 type: "POST",
                 data: data,
 				beforeSend: function(){
-					loadStart($('.post-container'));
+					loadStart($('.post-container'), false, 'next');
 				},
                 success: function (response) {
                     loadStop($('.post-container'), function () {
-                        var posts = JSON.parse(response);
+                        var obj = JSON.parse(response);
+
+                        var message = obj['message'];
+                        var posts = obj['data'];
+
+                        if(message == 'no-more-posts'){
+                            toast('No more posts.');
+                            return;
+						}
+
+                        setTimeout(function () {
+							fetching = false;
+                        }, 1500);
 
                         $.each(posts, function(idx) {
-                            $('.post-container').append(makePost(this));
+                            postOffset++;
+                            var newPost = makePost(this);
+
+                            $('.post-container').append(newPost);
                             var e = $('.post-container').children().last();
                             setTimeout(function () {
                                 e.removeClass('scale-0');
-                            }, idx*100);
+
+                                e.find('.actions .comment').each(function () {
+                                    fetchComments($(this), 0, 2, function(commentElem, response){
+                                        var comments = JSON.parse(response);
+
+                                        $.each(comments, function() {
+                                            commentElem.parents('.posts').find('.comments-container').append(makeComment(this));
+                                            commentElem.parents('.posts').find('.comments-container').each(function (idx) {
+                                                var e = $(this).children().last();
+                                                setTimeout(function () {
+                                                    e.removeClass('scale-0');
+                                                }, (idx+1)*100);
+                                            });
+                                        });
+                                    });
+                                });
+                            }, (idx+1)*100);
                         });
 
                         $('.prev-comments').each(function () {
@@ -157,22 +253,6 @@
                             });
                         });
 
-                        $('.actions .comment').each(function () {
-                            fetchComments($(this), 0, 2, function(commentElem, response){
-                                var comments = JSON.parse(response);
-
-                                $.each(comments, function() {
-                                    commentElem.parents('.posts').find('.comments-container').append(makeComment(this));
-                                    commentElem.parents('.posts').find('.comments-container').each(function (idx) {
-                                        var e = $(this).children().last();
-                                        setTimeout(function () {
-                                            e.removeClass('scale-0');
-                                        }, (idx+1)*100);
-                                    });
-                                });
-							});
-                        });
-
                         $('.posts .comment-box').each(function () {
                             $(this).keyup(function (e) {
                                 if(e.keyCode == 13){
@@ -180,15 +260,10 @@
                                 }
                             });
                         });
+						setTimeUpdater();
 
-                        clearInterval(timeUpdateTimer);
+                    }, 'next');
 
-                        timeUpdateTimer = setInterval(function () {
-                            $('.posts').each(function () {
-                                fetchTime($(this));
-                            });
-                        }, 60000);
-                    });
                 },
                 error: function (err) {
                     toast('Sorry, something went wrong.');
@@ -196,6 +271,17 @@
             });
         }
 
+
+        function setTimeUpdater() {
+
+            clearInterval(timeUpdateTimer);
+
+            timeUpdateTimer = setInterval(function () {
+                $('.posts').each(function () {
+                    fetchTime($(this));
+                });
+            }, 60000);
+        }
 
 
         function fetchTime(postElem){
